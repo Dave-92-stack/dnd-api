@@ -4,8 +4,6 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 // require route files
-const exampleRoutes = require('./app/routes/example_routes')
-const userRoutes = require('./app/routes/user_routes')
 
 // require middleware
 const errorHandler = require('./lib/error_handler')
@@ -17,7 +15,7 @@ const requestLogger = require('./lib/request_logger')
 const db = require('./config/db')
 
 // require configured passport authentication middleware
-const auth = require('./lib/auth')
+// const auth = require('./lib/auth')
 
 // define server and client ports
 // used for cors and local port declaration
@@ -48,7 +46,7 @@ const port = process.env.PORT || serverDevPort
 app.use(replaceToken)
 
 // register passport authentication middleware
-app.use(auth)
+// app.use(auth)
 
 // add `express.json` middleware which will parse JSON requests into
 // JS objects before they reach the route files.
@@ -59,10 +57,6 @@ app.use(express.urlencoded({ extended: true }))
 
 // log each request as it comes in for debugging
 app.use(requestLogger)
-
-// register route files
-app.use(exampleRoutes)
-app.use(userRoutes)
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be

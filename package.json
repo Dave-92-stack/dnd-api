@@ -1,10 +1,10 @@
 {
-  "name": "d&d-project",
+  "name": "dnd-project",
   "version": "0.0.1",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "mocha --exit",
     "server": "nodemon server.js",
     "serve": "nodemon server.js",
