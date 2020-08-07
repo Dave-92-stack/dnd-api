@@ -10,6 +10,13 @@ router.get('/books', (req, res) => {
     .catch(console.error)
 })
 
+// INDEX
+router.get('/books', (req, res) => {
+  advBook.find()
+    .then(book => res.json({ book: book }))
+    .catch(console.error)
+})
+
 // SHOW:
 router.get('/books/:id', (req, res) => {
   const id = req.params.id
