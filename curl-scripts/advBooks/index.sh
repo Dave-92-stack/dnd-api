@@ -1,1 +1,9 @@
-curl 'http://localhost:4741/dndbooks' --include
+API="http://localhost:4741"
+URL_PATH="/books"
+
+curl "${API}${URL_PATH}" \
+  --include \
+  --request GET \
+  --header "Authorization: Bearer ${TOKEN}"
+
+echo
