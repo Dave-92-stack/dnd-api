@@ -12,7 +12,8 @@ const advSchema = new mongoose.Schema({
   keyFeatures: {
     type: Array,
     required: true
-  },
+  }
+}, {
   timestamps: true
 })
 
