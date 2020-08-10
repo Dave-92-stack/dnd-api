@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const advBook = require('./../models/advBook')
+const advBook = require('../models/advBook')
 
 // INDEX: define route GET to /books responds with books json
 router.get('/books', (req, res) => {
