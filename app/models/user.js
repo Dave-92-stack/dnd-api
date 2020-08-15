@@ -6,6 +6,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  // name: {
+  //   type: String,
+  //   required: true
+  // },
+  // experience: {
+  //   type: Number,
+  //   required: true
+  // },
   hashedPassword: {
     type: String,
     required: true
@@ -13,7 +21,8 @@ const userSchema = new mongoose.Schema({
   token: String
 }, {
   timestamps: true,
-  toObject: {
+    toObject: {
+    // remove `hashedPassword` field when we call `.toObject`
     transform: (_doc, user) => {
       delete user.hashedPassword
       return user
