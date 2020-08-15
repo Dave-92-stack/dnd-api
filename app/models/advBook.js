@@ -9,8 +9,13 @@ const advSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  keyFeatures: {
-    type: Array,
+  description: {
+    type: String,
+    required: true
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   }
 }, {
