@@ -1,57 +1,70 @@
 const express = require('express')
+const passport = require('passport')
+const AdvBook = require('../models/advBook')
+const customErrors = require('../../lib/custom_errors')
+
+const handle404 = customErrors.handle404
+const requireOwnership = customErrors.requireOwnership
+
+const removeBlanks = require('../../lib/remove_blank_fields')
+const requireToken = passport.authenticate('bearer', { session: false })
+
 const router = express.Router()
 
-const advBook = require('../models/advBook')
-
-// INDEX: define route GET to /books responds with books json
-router.get('/books', (req, res) => {
-  advBook.find()
-    .then(books => res.json({ books: books }))
-    .catch(console.error)
-})
-
 // INDEX
-router.get('/books', (req, res) => {
-  advBook.find()
-    .then(book => res.json({ book: book }))
-    .catch(console.error)
+router.get('/advBooks', requireToken, (req, res, next) => {
+  AdvBook.find()
+    .then(advBook => {
+      return advBook.map(advBook => advBook.toObject())
+    })
+    .then(advBook => res.status(200).json({ advBook: advBook }))
+    .catch(next)
 })
 
-// SHOW:
-router.get('/books/:id', (req, res) => {
-  const id = req.params.id
-  advBook.findById(id)
-    .then(book => res.json({ book: book }))
-    .catch(console.error)
+// SHOW
+router.get('/advBooks/:id', requireToken, (req, res, next) => {
+  AdvBook.findById(req.params.id)
+    .then(handle404)
+    .then(advBook => res.status(200).json({ advBook: advBook.toObject() }))
+    .catch(next)
 })
 
 // CREATE:
-router.post('/books', (req, res) => {
-  const book = req.body.book
-  advBook.create(book)
-    .then(book => res.status(201).json({ book: book }))
-    .catch(console.error)
+router.post('/advBooks', requireToken, (req, res, next) => {
+  req.body.advBook.owner = req.user.id
+
+  AdvBook.create(req.body.advBook)
+    .then(advBook => {
+      res.status(201).json({ advBook: advBook.toObject() })
+    })
+    .catch(next)
 })
 
 // UPDATE
-router.patch('/books/:id', (req, res) => {
-  const bookId = req.params.id
-  const bookData = req.body.book
-  advBook.findById(bookId)
-    .then(book => book.updateOne(bookData))
+router.patch('/advBooks/:id', requireToken, removeBlanks, (req, res, next) => {
+  delete req.body.advBook.owner
+
+  AdvBook.findById(req.params.id)
+    .then(handle404)
+    .then(advBook => {
+      requireOwnership(req, advBook)
+
+      return advBook.updateOne(req.body.advBook)
+    })
     .then(() => res.sendStatus(204))
-    .catch(console.error)
+    .catch(next)
 })
 
 // DESTROY
-router.delete('/books/:id', (req, res) => {
-  const bookId = req.params.id
-  advBook.findById(bookId)
-    .then(book => {
-      return book.deleteOne()
+router.delete('/advBooks/:id', requireToken, (req, res, next) => {
+  AdvBook.findById(req.params.id)
+    .then(handle404)
+    .then(advBook => {
+      requireOwnership(req, advBook)
+      advBook.deleteOne()
     })
     .then(() => res.sendStatus(204))
-    .catch(console.error)
+    .catch(next)
 })
 
 module.exports = router
