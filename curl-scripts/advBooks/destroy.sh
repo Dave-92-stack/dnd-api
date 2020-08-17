@@ -1,9 +1,6 @@
-API="http://localhost:4741"
-URL_PATH="/books"
-
-curl "${API}${URL_PATH}/${ID}" \
-  --include \
-  --request DELETE \
-  --header "Authorization: Bearer ${TOKEN}"
+curl "https://localhost:4741/advbooks/${ID}" \
+--include \
+--request DELETE \
+--header "Authorization: Bearer ${TOKEN}" \
 
 echo
