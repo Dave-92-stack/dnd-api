@@ -1,14 +1,14 @@
-API="http://localhost:4741"
-URL_PATH="/books"
-
-curl "${API}${URL_PATH}" \
+curl "http://localhost:4741/advbooks" \
   --include \
   --request POST \
+  --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
   --data '{
-    "Adventure Books": {
+    "Adventure Book": {
       "title": "'"${TITLE}"'",
       "edition": "'"${EDITION}"'",
-      "keyFeatures": "'"${KEYFEATURES}"'"
+      "description": "'"${DESCRIPTION}"'",
     }
   }'
+
+echo

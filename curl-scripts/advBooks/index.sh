@@ -1,9 +1,7 @@
-API="http://localhost:4741"
-URL_PATH="/books"
 
-curl "${API}${URL_PATH}" \
-  --include \
-  --request GET \
-  --header "Authorization: Bearer ${TOKEN}"
+curl 'http://localhost:4741/advbooks' \
+--include \
+--request GET \
+--header "Authorization Bearer ${TOKEN}" \
 
 echo
