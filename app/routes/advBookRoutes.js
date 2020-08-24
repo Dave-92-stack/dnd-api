@@ -14,10 +14,10 @@ const router = express.Router()
 // INDEX
 router.get('/advBooks', requireToken, (req, res, next) => {
   AdvBook.find()
-    .then(advBook => {
-      return advBook.map(advBook => advBook.toObject())
+    .then(advBooks => {
+      return advBooks.map(advBook => advBook.toObject())
     })
-    .then(advBook => res.status(200).json({ advBook: advBook }))
+    .then(advBooks => res.status(200).json({ advBooks: advBooks }))
     .catch(next)
 })
 
